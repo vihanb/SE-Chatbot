@@ -80,6 +80,18 @@ var Chatbot = function Chatbot() {
   }, 2500);
 };
 
+var DICTIONARY = { // Define commands in this object
+	"!!zhelp": "No help yet, but you can use !!zlistcommands.",
+	"!!zlistcommands": "Commands: listcommands, alive",
+	"!!zalive": "Watching this endless feed of new messages never gets boring."
+};
+
 var MyChatbot = new Chatbot("a Chatbot", {Startup: "Hi my name is $Name!"}, function() {
-	
+	if(/hello/i.test(this.Text)) { this.Reply("Hello!"); }
+	else if(this.Text.slice(0, 3) !== "!!z") { /* Nothing to do here */ }
+	else {
+		var text = DICTIONARY[this.Text];
+		if(text) { this.Reply(text); }
+		else { this.Reply("Unknown command"); }
+	}
 });
